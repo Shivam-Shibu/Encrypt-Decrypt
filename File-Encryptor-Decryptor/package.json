@@ -1,0 +1,8 @@
+{
+  "name": "securecrypt-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd securecrypt-web && npm install && npm run build && mv dist ../dist"
+  }
+}

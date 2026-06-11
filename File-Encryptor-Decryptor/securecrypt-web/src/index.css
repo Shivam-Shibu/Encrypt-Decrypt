@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Brand colors */
+  --color-brand-50:  #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+  --color-brand-300: #86efac;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+
+  /* Dark surface tokens */
+  --color-surface-0:    #0A0A0A;
+  --color-surface-50:   #111111;
+  --color-surface-100:  #161616;
+  --color-surface-200:  #1e1e1e;
+  --color-surface-300:  #282828;
+  --color-surface-400:  #333333;
+  --color-surface-500:  #444444;
+  --color-surface-600:  #555555;
+  --color-surface-700:  #666666;
+
+  /* Glass */
+  --color-glass-sm:  rgba(255,255,255,0.02);
+  --color-glass-md:  rgba(255,255,255,0.04);
+  --color-glass-lg:  rgba(255,255,255,0.06);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface-0);
+  color: #f0f0f8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Selection ────────────────────────────────────────────────────────────── */
+::selection { background: rgba(16,185,129,0.25); color: #fff; }
+
+/* ── Glass surface utility ────────────────────────────────────────────────── */
+.glass {
+  background: rgba(22,22,22,0.72);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.glass-hover:hover {
+  background: rgba(26,26,26,0.85);
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* ── Gradient text ────────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #f8fafc 0%, #a7f3d0 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glow effects ─────────────────────────────────────────────────────────── */
+.glow-brand {
+  box-shadow: 0 0 24px rgba(16,185,129,0.15), 0 0 48px rgba(16,185,129,0.05);
+}
+.glow-success {
+  box-shadow: 0 0 24px rgba(16,185,129,0.25), 0 0 48px rgba(16,185,129,0.08);
+}
+.glow-text {
+  text-shadow: 0 0 30px rgba(16,185,129,0.45);
+}
+
+/* ── Noise texture overlay ────────────────────────────────────────────────── */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Animated gradient border ─────────────────────────────────────────────── */
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #10b981, #059669, #34d399, #10b981);
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.gradient-border:hover::before { opacity: 1; }
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Drop zone pulse ──────────────────────────────────────────────────────── */
+@keyframes dropPulse {
+  0%, 100% { border-color: rgba(16,185,129,0.3); box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+  50%       { border-color: rgba(16,185,129,0.6); box-shadow: 0 0 0 6px rgba(16,185,129,0.06); }
+}
+.drop-active { animation: dropPulse 1.5s ease infinite; }
+
+/* ── Progress shimmer ─────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+.shimmer-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* ── Strength meter ───────────────────────────────────────────────────────── */
+@keyframes stretchIn {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.strength-bar-fill { transform-origin: left; animation: stretchIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+/* ── Float animation (drop icon) ─────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+.float-anim { animation: float 3s ease-in-out infinite; }
+
+/* ── Success check draw ───────────────────────────────────────────────────── */
+@keyframes checkDraw {
+  from { stroke-dashoffset: 50; }
+  to   { stroke-dashoffset: 0; }
+}
+.check-draw {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: checkDraw 0.6s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
+}
+
+/* ── Ambient background ───────────────────────────────────────────────────── */
+.ambient-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(16,185,129,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(52,211,153,0.06) 0%, transparent 60%),
+    var(--color-surface-0);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Input reset ──────────────────────────────────────────────────────────── */
+input[type="range"] { -webkit-appearance: none; appearance: none; }
+
+/* ── 3D & Premium Motion Utilities ────────────────────────────────────────── */
+.perspective-container {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* 3D Glass Orbs */
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-orb-1 {
+  background: radial-gradient(circle, rgba(16,185,129,0.22) 0%, rgba(16,185,129,0.04) 70%, transparent 100%);
+  width: 450px;
+  height: 450px;
+}
+
+.glass-orb-2 {
+  background: radial-gradient(circle, rgba(52,211,153,0.18) 0%, rgba(16,185,129,0.03) 70%, transparent 100%);
+  width: 500px;
+  height: 500px;
+}
+
+/* Retro Cyber Grid with 3D depth perspective */
+.perspective-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: perspective(500px) rotateX(60deg) translateZ(-80px) scale(2);
+  transform-origin: center top;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0.45) 80%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0.45) 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3D Tactile Depress effect for buttons */
+.button-3d-active:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.1);
+}
+
+/* Premium Animated Sheen Border */
+.glow-border-3d {
+  position: relative;
+}
+
+.glow-border-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.08));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
