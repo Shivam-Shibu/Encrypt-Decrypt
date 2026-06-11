@@ -38,7 +38,7 @@ const pageVariants = {
     transformPerspective: 1000,
     transition: { 
       duration: 0.4, 
-      ease: [0.25, 1, 0.5, 1] 
+      ease: [0.25, 1, 0.5, 1] as [number, number, number, number]
     } 
   },
   exit: { 
@@ -49,7 +49,7 @@ const pageVariants = {
     transformPerspective: 1000,
     transition: { 
       duration: 0.3, 
-      ease: [0.25, 1, 0.5, 1] 
+      ease: [0.25, 1, 0.5, 1] as [number, number, number, number]
     } 
   },
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Moon, Sun, Shield, Database, Info, Trash2, Download, ToggleLeft, Zap } from 'lucide-react'
+import { Sun, Shield, Database, Info, Trash2, Download, Zap } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'

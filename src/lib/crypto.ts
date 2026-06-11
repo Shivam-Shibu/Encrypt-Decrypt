@@ -40,7 +40,7 @@ async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey>
     ['deriveKey']
   )
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: ITERATIONS, hash: 'SHA-256' },
+    { name: 'PBKDF2', salt: salt as any, iterations: ITERATIONS, hash: 'SHA-256' },
     keyMaterial,
     { name: 'AES-GCM', length: KEY_BITS },
     false,
@@ -70,7 +70,7 @@ export async function encryptFile(plainData: Uint8Array, password: string): Prom
     const cipherBuffer = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       key,
-      plainData
+      plainData as any
     )
     const cipherData = new Uint8Array(cipherBuffer)
 
@@ -135,7 +135,7 @@ export async function decryptFile(encData: Uint8Array, password: string): Promis
       plainBuffer = await crypto.subtle.decrypt(
         { name: 'AES-GCM', iv },
         key,
-        cipherData
+        cipherData as any
       )
     } catch {
       // AES-GCM throws when auth tag fails — always means wrong key/password or corrupted data
@@ -182,7 +182,7 @@ export function scorePassword(pw: string): 0 | 1 | 2 | 3 {
 
 /** Triggers a browser download of binary data */
 export function downloadBlob(data: Uint8Array, filename: string): void {
-  const blob = new Blob([data], { type: 'application/octet-stream' })
+  const blob = new Blob([data as any], { type: 'application/octet-stream' })
   const url  = URL.createObjectURL(blob)
   const a    = document.createElement('a')
   a.href = url
